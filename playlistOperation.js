@@ -45,4 +45,26 @@ app.post('/addData',(req,res)=>{
 })
 
 
+
+
+app.post('/getListData',(req,res)=>{
+    list_no=req.body.list
+    uname=req.body.uname
+    query="select imdbID from playlist_data where playlist_id=?"
+    val=[]
+    val.push(list_no)
+    sql.execute(query,val,(err,result)=>{
+        if(err)
+        {
+            console.log(err)
+            res.send("error")
+        }
+        
+        else
+        {
+            res.send(result)
+        }
+    })
+})
+
 module.exports=app

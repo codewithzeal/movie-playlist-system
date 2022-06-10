@@ -76,14 +76,14 @@
         <br>
         <div class="row mt-3">
             <div class="col-4">
-                <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px; box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.3), 0 9px 22px 0 rgba(255, 255, 255, 0.39);" >
-                    <i class="fa fa-plus fa-lg"></i>
+                <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px; box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.3), 0 9px 22px 0 rgba(255, 255, 255, 0.39);cursor: pointer;" onclick="startCreate()" >
+                    <i class="fa fa-plus fa-lg" style="cursor: pointer;" onclick="startCreate()"></i>
                 </div>
             </div>
             <div class="col-4">
                 <center>
-                    <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px;" >
-                        <i class="fa fa-home fa-lg" onclick=""></i>
+                    <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px;" onclick="startHome()" style="cursor: pointer;" id="home">
+                        <i class="fa fa-home fa-lg" onclick="startHome()" style="cursor: pointer;"></i>
                     </div>
                 </center>
             </div>
@@ -98,11 +98,13 @@
 
     <!--Content-->
 
-<div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);position: sticky;overflow: hidden;z-index: 1;">
+<div id="parent-content-holder-create">
+
+    <div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);position: sticky;overflow: hidden;z-index: 1;">
     <div class="row" style="padding: 0%;margin:0%;overflow: hidden;" >
         <div class="col-sm-2"></div>
         <div class="col-sm-8" style="padding: 0%;margin: 0%;">
-                <div class="search-box">
+                <div class="search-box" id="search-bar">
                    <input type="text" class="search-input" placeholder="Search.." id="search">
              
                    <button class="search-button" onclick="search()">
@@ -118,6 +120,30 @@
     <div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);" id="parent-holder">
 
     </div>
+</div>
+
+
+
+<div id="parent-content-holder-home" style="display: none;">
+    <div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);position: sticky;overflow: hidden;z-index: 1;">
+        <div class="row" style="padding: 0%;margin:0%;overflow: hidden;" >
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8" style="padding: 0%;margin: 0%;" >
+                    <select id="list-no">
+                        <option value="-1">select a playlist</option>
+                    </select>
+                    <button class="btn btn-success" onclick="getListData()">fetch</button>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+    
+    
+        <div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);" id="parent-holder1">
+    
+        </div>
+</div>
+
 
 
 </body>

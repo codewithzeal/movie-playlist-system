@@ -9,7 +9,6 @@ app.use(session({secret: 'Your_Secret_Key',resave:false,saveUninitialized:false}
 
 
 app.get('/wall',(req,res)=>{
-    console.log(req.session.uname)
     res.render('wall.ejs',{uid:req.session.uname})
 })
 
