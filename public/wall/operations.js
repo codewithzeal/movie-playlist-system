@@ -216,7 +216,8 @@ function getPlayList()
               }
               else
               { 
-               select=document.getElementById("playlists")
+               existPlaylist=true
+                select=document.getElementById("playlists")
                document.getElementById("playlists").innerHTML=""
                document.getElementById("listoption").style.display="block"
                for(i=0;i<res.length;i++)
@@ -241,7 +242,9 @@ function getPlayList()
 
 async function addToPlayList()
 {
-    if(!existPlaylist)
+  playlist=document.getElementById("playlists").value
+  id=document.getElementById("imdbID").innerHTML
+  if(!existPlaylist)
     {
       alert("please create a playlist before proceeding")
       return;
@@ -250,7 +253,25 @@ async function addToPlayList()
     {
         $.ajax({
           url:'/addData',
-          method:'POST'
+          method:'POST',
+          contentType:'application/json',
+          data:JSON.stringify(
+            {
+              playlist_id:playlist,
+              imdbID:id
+            }),
+            success:res=>{
+                if(res=="error")
+                  alert("list addition server error")
+                else
+                {
+                  alert("successfully added to playlist")
+                }
+            },
+            error:res=>{
+              console.log(res)
+              alert("list addition error")
+            }
         })
     }
 }
@@ -259,13 +280,15 @@ async function addToPlayList()
 function addList()
 {
   list=document.getElementById("set-playlist").value
+  type=document.getElementById("type").value
   $.ajax({
     url:'/addList',
     method:'POST',
     contentType:"application/json",
     data:JSON.stringify({
       uname:uname,
-      list_name:list
+      list_name:list,
+      value:type
     }),
     success:async res=>{
       if(res=="error")
