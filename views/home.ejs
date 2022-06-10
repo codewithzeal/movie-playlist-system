@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/home/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/home/initiate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body style="padding:0%;margin: 0%;height: 100%;overflow-x: hidden;" id="body">
+    <div class="top-bar">
+        <h2 style="margin:0%;padding:0%;float: left;">Movie List</h2>
+        <button class="btn"style="margin: 0%;float: right; border: 2px solid white; color:white;" onclick="initiate()">Login/Signup</button>
+    </div>
+    <!--Image element hai yaha-->
+    <div class="posters" style="height: 93vh;">
+        
+    </div>
+
+    <!--Transparent div-->
+    <div class="modal-box" id="modal" >
+        <div id="login-parent" class="containers" style="background-color: rgb(224, 86, 164,0.3);">
+            <div class="row" style="position: relative;top: 0%;margin: 0%;color: white;" >
+                <div id="login" class="col-6" style="background-color: rgb(224, 86, 164);padding: 8px;cursor: pointer;box-shadow: 1px 1px 1px white;" onclick="toggleli()">
+                    Login
+                </div>
+                <div id="signup" class="col-6" style="background-color: rgba(84, 33, 203);padding: 8px;overflow: hidden;cursor: pointer;" onclick="togglesu()" >
+                    Signup
+                    <i style="float: right;" class="fa fa-times fa-2x" onclick="remove()"></i>
+                </div>
+            </div>
+
+            <div class="m-3" style="justify-content: center;">
+                <center>
+                    <input type="text"  placeholder="username" id="uname"><br>
+                    <input type="password"  placeholder="password" id="password"><br>
+                    <input type="password" placeholder="confirm password" id="cnfpassword"><br>
+                    <button class="btn btn-danger" id="button" onclick="login()">login</button>
+                </center>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

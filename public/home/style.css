@@ -1,0 +1,253 @@
+
+.top-bar
+{
+    background-color:rgb(74,75,170);
+    padding: 4px;margin: 0%;
+    color: white;
+    display: block;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+
+.posters
+{
+    background-image: url('/movie1.png');
+    color: black;
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0;
+}
+
+
+.modal-box
+{
+    width: 100%;
+    height: 105vh;
+    z-index: 1000;
+    display: none;
+    background-color: rgb(0,0,0,0.6);
+    top:0px;
+    position: absolute;
+    margin: 0%;
+    overflow: hidden;
+}
+#login-parent
+{
+    border-radius: 30px 30px;
+    overflow: hidden;
+    color:black;
+}
+
+#uname
+{
+    border-radius: 5px 5px;
+}
+
+#password
+{
+    border-radius: 5px 5px;
+}
+
+#cnfpassword
+{
+    border-radius: 5px 5px;
+}
+
+
+.search-box{
+    width: 100%;
+    position: relative;
+    display: flex;
+    margin-right: 10px;
+    padding: 4px;
+    position: sticky;
+  }
+  .search-input{
+    width: 90%;
+    padding: 10px;
+    border: 2px solid #111d5e;
+    border-radius:10px 0 0 10px ;
+    border-right: none;
+    outline: none;
+    font-size: 20px;
+    color: tomato;
+    background: none;
+  }
+  .search-button{
+   text-align: center;
+  height: 59px;
+  width: 60px;
+  outline: none;
+  cursor: pointer;
+  border: 2px solid #111d5e;
+   border-radius: 0 10px 10px 0 ;
+  border-left: none;
+  background: none;
+  font-size: 20px;
+  border-left: 2px solid #111d5e;  
+}
+
+.cardclass
+{
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.3), 0 9px 22px 0 rgba(0, 0, 0, 0.39);
+    width: 80%;float: left;margin-left: 10%;
+}
+.card-header
+{
+    background-color: rgb(155, 51, 113);
+    color: white;
+}
+.add-button
+{
+    float: right;
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 10% 10%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.card-img-top
+{
+    height: 30vh;
+}
+
+.next-button
+{
+    position: absolute;
+    top: 50%;
+    background-color: rgb(40, 40, 108);
+    color: white;
+}
+
+.prev-button
+{
+    position: absolute;
+    top: 50%;
+    background-color: rgb(40, 40, 108);
+    color: white;   
+}
+
+
+@media (max-width: 575.98px) {
+    .card
+    {
+            width: 96%;
+            margin: 2%;
+            float: left;
+    }
+
+
+    .next-button
+    {
+        position: absolute;
+        top: 50%;
+        background-color: rgb(40, 40, 108);
+        color: white;
+        margin-left: 30%;
+        margin-bottom: 5%;
+    }
+    
+    .add-button
+    {
+        float: right;
+        position: absolute;
+        bottom: 4px;
+        right: 10px;
+        width: 11vw;
+        height: 11vw;
+        border-radius: 10% 10%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+     #login-parent
+     {
+        position: relative; 
+        top: 18vh;
+         background-color: white;
+         height:60vh;
+         margin: 20px;
+         color:wheat;
+        overflow-y: auto;
+     } 
+
+     #uname
+     {
+        margin-top: 25%;
+        height: 40px;
+     }
+
+     #password
+     {
+        margin-top: 5%;
+        height: 40px;
+     }
+    
+     #cnfpassword
+     {
+         margin-top: 5%;
+         height: 40px;
+         display: none;
+     }
+
+     #button
+     {
+         margin-top: 5%;
+     }
+
+    }
+
+    @media (min-width: 576px) {  
+
+
+        #login-parent
+        {
+            position: absolute;
+            margin: auto;
+            left: 25%;
+            top: 20%;
+            background-color: white;
+            width:50vw;
+            height:60vh;
+            color: wheat;
+        }
+
+        #uname
+        {
+            margin-top: 10%;
+        }
+
+        #password
+        {
+            margin-top: 3%;
+        }
+
+        #button
+        {
+            margin-top: 3%;
+        }
+
+        #cnfpassword
+        {
+            margin-top: 3%;
+            display: none;
+        }
+
+    }
+
+
+
+    
