@@ -13,9 +13,55 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="/home/style.css">
     <script src="https://kit.fontawesome.com/43dcc20e7a.js" crossorigin="anonymous"></script>
-    <script src="/wall/operations.js"></script>
+    <script>
+        function getInfo()
+        {
+            return "<%=uid%>"
+        }
+    </script>
 </head>
 <body style="padding:0%;margin: 0%;height: 100%;overflow-x: hidden;" id="body">
+
+    <!--Modal element-->
+    <div class="modal fade" id="myModal" role="dialog" style="align-items: center;justify-content: center;" >
+        <div class="modal-dialog modal-dialog-centered" style="align-items: center;justify-content: center;" >
+        
+          <!-- Modal content-->
+          <div class="modal-content" style="align-items: center;justify-content: center;" >
+            <div class="modal-body" style="align-items: center;justify-content: center;" >
+                <div class="listContainer" id="listoption">
+                    <label for="playlists">Choose a plalist:</label>
+                    <select name="playlists" id="playlists">
+                    </select>
+                    <br>
+                    OR
+                </div>
+                
+                <div>
+                    <input type="text" placeholder="enter new playlist name" id="set-playlist"><button style="border-radius: 10% 10%;background-color: aqua;" onclick="addList()">add</button>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="" alt="Card image cap" id="movie-poster">
+                    <div class="card-body">
+                      <h5 class="card-title" id="movie-title">Card title</h5>
+                      <p id="imdbID" style="display: none;" ></p>
+                      <i class="fa fa-calendar"></i>:<p id="release" style="display: inline;"></p>2&nbsp&nbsp<i class="fa fa-hourglass"></i>:<p style="display: inline;" id="running"></p>
+                      <br><i class="fa fa-language fa-lg"></i>:&nbsp<p id="language" style="display: inline;">aaaa</p>
+                      <p id="genre">N/A</p>
+                      <p id="director">N/A</p>
+                      <p id="actors">N/A</p>
+                      <p class="card-text" id="plot">Not availiable</p>
+                      <button class="btn btn-primary" onclick="addToPlayList()">Add</button>
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
     <!--Top division of bar-->
     <div class="top-bar">
         <h2 style="margin:0%;padding:0%;float: left;">Movie List</h2>
@@ -74,4 +120,5 @@
 
 
 </body>
+<script src="/wall/operations.js"></script>
 </html>

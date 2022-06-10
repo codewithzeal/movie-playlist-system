@@ -1,9 +1,13 @@
 page=1
 keyword=""
 maxLimit=0
+existPlaylist=""
+uname=getInfo()
+
 function search()
 {
     keyword=document.getElementById("search").value
+    keyword=keyword.replaceAll(' ','+')
     url='https://www.omdbapi.com/?t='+keyword+'&apikey=16146057&page='+page
     $.ajax(
         {
@@ -12,7 +16,9 @@ function search()
             dataType:'JSONP',
             success:res=>{
                 url=res
-                maxLimit=res.totalResults
+                maxLimit=Math.floor(res.totalResults/10)
+                if(maxLimit%10!=0)
+                maxLimit++
                 console.log(res)
                 appendResult(res)
             }
@@ -81,7 +87,7 @@ function appendResult(result)
   else
   n=Math.floor(n/3)
   p=0
-  while(i<n)
+  while(i<=n)
   { 
     var rowdiv=document.createElement("div")
     rowdiv.setAttribute("style","padding:2%")
@@ -116,7 +122,9 @@ function appendResult(result)
     img.setAttribute("src","https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg")
     cardclass.appendChild(img)
     button=document.createElement("button")
-    button.setAttribute("onclick","add('"+result.Search[0].imdbID+"')")
+    button.setAttribute("onclick","add('"+result.Search[p].imdbID+"')")
+    button.setAttribute("data-toggle","modal")
+    button.setAttribute("data-target","#myModal")
     button.setAttribute("class","add-button btn btn-danger")
     cardclass.appendChild(button)
     button.innerHTML='<center><i style="margin:1px;" class="fa fa-plus"></i></center>'
@@ -143,4 +151,144 @@ function appendResult(result)
     i++
 
   }
+}
+
+
+async function add(id)
+{
+    $.ajax(
+    {
+      url:'https://www.omdbapi.com/?i='+id+'&apikey=16146057&page=1&plot=full',
+      method:'POST',
+      dataType:'jsonp',
+      success:async res=>{
+           await getPlayList()
+          if(res.Response=="False")
+          alert("data not availaible")
+          else
+          {
+            showData(res,id)
+          }
+      },
+      error:res=>{
+        alert("unable to get data on the movie third party error")
+      }
+    }
+  )
+}
+
+
+function showData(result,id)
+{
+  document.getElementById("movie-title").innerHTML=result.Title
+  document.getElementById("movie-poster").src=result.Poster
+  document.getElementById("release").innerHTML=result.Released
+  document.getElementById("running").innerHTML=result.Runtime
+  document.getElementById("language").innerHTML=result.Language
+  document.getElementById("plot").innerHTML=result.Plot
+  document.getElementById("imdbID").innerHTML=id
+}
+
+function getPlayList()
+{
+  return new Promise((s,r)=>{
+    $.ajax(
+      {
+        url:'/getPlayList',
+        method:'POST',
+        contentType:'application/json',
+        data:JSON.stringify({
+          uname:uname
+        }),
+        success:res=>{
+          console.log(res)
+            if(res=="error"){
+            alert("playlist server error occured")
+              s()
+          }
+            else
+            {
+              if(res=='empty')
+              {
+                existPlaylist=false
+                document.getElementById("listoption").style.display="none"
+                s()
+              }
+              else
+              { 
+               select=document.getElementById("playlists")
+               document.getElementById("playlists").innerHTML=""
+               document.getElementById("listoption").style.display="block"
+               for(i=0;i<res.length;i++)
+               {
+                  option=document.createElement("option")
+                  option.setAttribute("value",res[i].S_ID)
+                  option.innerHTML=res[i].playlist_name
+                  select.appendChild(option)
+               }
+               s()
+              }
+            }
+        },
+        error:res=>{
+          alert("playlist error occured")
+          s()
+        }
+      }
+    )
+  })  
+}
+
+async function addToPlayList()
+{
+    if(!existPlaylist)
+    {
+      alert("please create a playlist before proceeding")
+      return;
+    }
+    else
+    {
+        $.ajax({
+          url:'/addData',
+          method:'POST'
+        })
+    }
+}
+
+
+function addList()
+{
+  list=document.getElementById("set-playlist").value
+  $.ajax({
+    url:'/addList',
+    method:'POST',
+    contentType:"application/json",
+    data:JSON.stringify({
+      uname:uname,
+      list_name:list
+    }),
+    success:async res=>{
+      if(res=="error")
+      alert("list add server error")
+      else
+      {
+        alert("playlist created successfully")
+        if(!existPlaylist){
+          existPlaylist=true
+        }
+        
+          await getPlayList()
+      }
+    },
+    error:res=>{
+      console.log("playlist request failed")
+    }
+  })
+}
+
+function remove()
+{
+    toggleli()
+    div=document.getElementById("modal")
+    div.style.display="none"
 }

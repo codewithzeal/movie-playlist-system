@@ -38,6 +38,8 @@
     position: absolute;
     margin: 0%;
     overflow: hidden;
+    bottom: 0px;
+    transform: scale(1.1);
 }
 #login-parent
 {
