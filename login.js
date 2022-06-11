@@ -30,8 +30,11 @@ app.post('/login',(req,res)=>{
                 if(result[0])
                 {
                     req.session.uname=result[0].uname;
+                    req.session.uuid=result[0].uid;
                     res.send("ok")
                 }
+                else
+                    res.send("N")
             }
         })
     }

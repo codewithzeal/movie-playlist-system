@@ -9,7 +9,10 @@ app.use(session({secret: 'Your_Secret_Key',resave:false,saveUninitialized:false}
 
 
 app.get('/wall',(req,res)=>{
-    res.render('wall.ejs',{uid:req.session.uname})
+    if(req.session.uname)
+    res.render('wall.ejs',{uid:req.session.uname,uuid:req.session.uuid})
+    else
+    res.redirect('/')
 })
 
 module.exports=app

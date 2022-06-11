@@ -26,7 +26,7 @@ app.post('/getPlayList',(req,res)=>{
         }
         else
         {
-            if(!result.length)
+            if(!result[0])
             res.send("empty")
             else
             res.send(result)
@@ -43,7 +43,7 @@ app.post('/getPlayList',(req,res)=>{
         }
             else
             {
-                if(!result.length)
+                if(!result[0])
                 res.send("empty")
                 else
                 res.send(result)

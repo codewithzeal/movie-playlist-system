@@ -18,6 +18,10 @@
         {
             return "<%=uid%>"
         }
+        function getID()
+        {
+            return "<%=uuid%>"
+        }
     </script>
 </head>
 <body style="padding:0%;margin: 0%;height: 100%;overflow-x: hidden;" id="body">
@@ -88,8 +92,8 @@
                 </center>
             </div>
             <div class="col-4">
-                <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px;float: right;" >
-                    <i class="fa fa-list fa-lg"></i>
+                <div style="padding: 1vw;background-color: rgb(82, 182, 182);width: max-content;border-radius: 8px 8px;float: right;" style="cursor: pointer;" onclick="startPrivate()">
+                    <i class="fa fa-list fa-lg" style="cursor: pointer;" onclick="startPrivate()"></i>
                 </div>
             </div>
         </div>
@@ -128,12 +132,15 @@
     <div class="cotainer-fluid mt-2 m-1" style="padding: 0%;margin: 0%;z-index: -1;background-color: rgb(255, 255, 255);position: sticky;overflow: hidden;z-index: 1;">
         <div class="row" style="padding: 0%;margin:0%;overflow: hidden;" >
             <div class="col-sm-2"></div>
-            <div class="col-sm-8" style="padding: 0%;margin: 0%;" >
-                    <select id="list-no">
+            <div class="col-sm-8" style="padding: 0%;margin: 0%;" style="justify-content: center;align-items: center;" >
+                <center>    
+                    <select id="list-no" style="padding: 9px;border-radius: 10px 10px;width: 30%;">
                         <option value="-1">select a playlist</option>
                     </select>
-                    <button class="btn btn-success" onclick="getListData()">fetch</button>
-            </div>
+                    <button class="btn btn-success" onclick="getListData()" id="fetch-button">fetch</button>
+                    <button class="btn btn-danger" id="copy-link" onclick="copy()">Copy link</button>
+                </center>
+                </div>
             <div class="col-sm-2"></div>
         </div>
     </div>

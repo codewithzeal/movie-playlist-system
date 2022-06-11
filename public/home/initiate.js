@@ -92,7 +92,10 @@ function login()
                 alert("error 1 occured")
                 else
                 {
+                    if(res=="ok")
                     window.location.href="http://localhost:3000/wall"
+                    if(res=="N")
+                    alert("inavlid credentials")
                 }
             },
             error:(res)=>{

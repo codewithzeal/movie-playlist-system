@@ -3,7 +3,7 @@ keyword=""
 maxLimit=0
 existPlaylist=""
 uname=getInfo()
-
+private=false
 function search()
 {
     keyword=document.getElementById("search").value
@@ -79,49 +79,50 @@ function prevPage()
 function appendResult(result)
 {
   document.getElementById("parent-holder").innerHTML=""
-  n=result.Search.length
-  t=n
-  i=0
+  var n=result.Search.length
+  var t=n
+  var i=0
   if(n/3>3)
   n=Math.floor(n/3)+1
   else
   n=Math.floor(n/3)
-  p=0
+ var p=0
   while(i<=n)
   { 
+    //alert("here")
     var rowdiv=document.createElement("div")
     rowdiv.setAttribute("style","padding:2%")
     rowdiv.setAttribute("class","row")
     document.getElementById("parent-holder").appendChild(rowdiv)
-    coldiv1=document.createElement("div")
+    var coldiv1=document.createElement("div")
     coldiv1.setAttribute("class","col-sm-4")
     coldiv1.setAttribute("id","row"+i+"col"+1)
-    coldiv2=document.createElement("div")
+    var coldiv2=document.createElement("div")
     coldiv2.setAttribute("class","col-sm-4")
     coldiv2.setAttribute("id","row"+i+"col"+2)
-    coldiv3=document.createElement("div")
+    var coldiv3=document.createElement("div")
     coldiv3.setAttribute("class","col-sm-4")
     coldiv3.setAttribute("id","row"+i+"col"+3)
     rowdiv.appendChild(coldiv1)
     rowdiv.appendChild(coldiv2)
     rowdiv.appendChild(coldiv3)
-    c=1
+    var c=1
     while(c<4&&p<t){
-    cardclass=document.createElement("div")
+    var cardclass=document.createElement("div")
     cardclass.setAttribute("class","card cardclass")
-    cardheader=document.createElement("div")
+    var cardheader=document.createElement("div")
     cardclass.appendChild(cardheader)
     cardheader.innerHTML=result.Search[p].Title+'('+result.Search[p].Year+')'
     cardheader.setAttribute("class","card-header")
     document.getElementById("row"+i+"col"+c).appendChild(cardclass)
-    img=document.createElement("img")
+    var img=document.createElement("img")
     img.setAttribute("class","card-img-top")
     if(result.Search[p].Poster!='N/A')
     img.setAttribute("src",result.Search[p].Poster)
     else
     img.setAttribute("src","https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg")
     cardclass.appendChild(img)
-    button=document.createElement("button")
+    var button=document.createElement("button")
     button.setAttribute("onclick","add('"+result.Search[p].imdbID+"')")
     button.setAttribute("data-toggle","modal")
     button.setAttribute("data-target","#myModal")
@@ -135,13 +136,13 @@ function appendResult(result)
     {
       if(page>1)
       {
-        prevButton=document.createElement("button")
+        var prevButton=document.createElement("button")
         prevButton.setAttribute("class","prev-button btn")
         document.getElementById("row"+i+"col"+c).appendChild(prevButton)
         prevButton.innerHTML="<i class='fa fa-arrow-right'></i>&nbsp&nbspPrev page"
         prevButton.setAttribute('onclick','prevPage()')
       }
-      nextButton=document.createElement("button")
+      var nextButton=document.createElement("button")
       nextButton.setAttribute("class","next-button btn")
       document.getElementById("row"+i+"col"+c).appendChild(nextButton)
       nextButton.innerHTML="View more&nbsp&nbsp<i class='fa fa-arrow-right'></i>"
@@ -221,7 +222,7 @@ function getPlayList()
                 select=document.getElementById("playlists")
                document.getElementById("playlists").innerHTML=""
                document.getElementById("listoption").style.display="block"
-               for(i=0;i<res.length;i++)
+               for(var i=0;i<res.length;i++)
                {
                   option=document.createElement("option")
                   option.setAttribute("value",res[i].S_ID)
@@ -320,14 +321,45 @@ function remove()
 
 async function startCreate()
 {
-  document.getElementById("parent-content-holder-create").style.display="block";
   document.getElementById("parent-content-holder-home").style.display="none"
+  document.getElementById("parent-content-holder-create").style.display="block";
 }
 async function startHome()
 {
+  document.getElementById("parent-holder1").innerHTML=""
   document.getElementById("parent-content-holder-create").style.display="none";
   document.getElementById("parent-content-holder-home").style.display="block"
+  document.getElementById("copy-link").style.display="inline"
+  private=false
   await attachLists("public")
+}
+
+async function startPrivate()
+{
+  document.getElementById("parent-holder1").innerHTML=""
+  document.getElementById("parent-content-holder-create").style.display="none";
+  document.getElementById("parent-content-holder-home").style.display="block"
+  //document.getElementById("copy-link").style.display="none"
+  private=true
+  await attachLists("private")
+}
+
+
+function copy()
+{
+  var a=document.getElementById('list-no').selectedOptions[0].text
+  //var b=a.substr(a.indexOf('">')+2,a.indexOf('</')-(a.indexOf('">')+2))
+  linkurl='http://localhost:3000/views/'+getID()+'/'+a
+  if(private)
+  {
+    linkurl=linkurl+'/1'
+  }
+  else
+  {
+    linkurl+='/0'
+  }
+  navigator.clipboard.writeText(linkurl);
+  alert("link copied");
 }
 
 function attachLists(type)
@@ -351,11 +383,17 @@ function attachLists(type)
               alert("list fetch server error occured")
               s("error")
             }
+            else if(res=="empty")
+            {
+              select=document.getElementById("list-no")
+                select.innerHTML=""
+                return
+            }
             else
             {
                 select=document.getElementById("list-no")
                 select.innerHTML=""
-               for(i=0;i<res.length;i++)
+               for(var i=0;i<res.length;i++)
                {
                   option=document.createElement("option")
                   option.setAttribute("value",res[i].S_ID)
@@ -393,15 +431,16 @@ function getListData()
             list:list_no,
           }
         ),
-        success:res=>{
+        success:async res=>{
             if(res=="error")
             {
               alert("list fetch server error occured")
             }
             else
             {
-              console.log(res)
-              appendPublic(res)
+              document.getElementById("fetch-button").innerHTML="Loading..."
+              await appendPublic(res)
+              document.getElementById("fetch-button").innerHTML="Fetch"
             }
         },
         error:res=>{
@@ -416,14 +455,15 @@ function getListData()
 
 async function appendPublic(result1)
 {
-  console.log(result1.length)
-  var vresult=[]
-  for(i=0;i<result1.length;i++)
+  //alert("here1")
+   vresult=[]
+  for(var g=0;g<result1.length;g++)
   {
-  await getimdbData(result1[i].imdbID).then(data=>{
+    //alert("here2")
+  await getimdbData(result1[g].imdbID).then(data=>{
       if(data=="error")
       {
-        alert("alert occured 233")
+        //alert("alert occured 233")
       }
       else
       {
@@ -432,84 +472,69 @@ async function appendPublic(result1)
   })
 }
   document.getElementById("parent-holder1").innerHTML=""
-  n=vresult.length
-  t=n
-  i=0
-  if(n/3>3)
-  n=Math.floor(n/3)+1
+  var dn=vresult.length
+  var dt=dn
+  var g=0
+  if(dn/3>3)
+  dn=Math.floor(dn/3)+1
   else
-  n=Math.floor(n/3)
-  p=0
-  while(i<=n)
+  dn=Math.floor(dn/3)
+  var dp=0
+  while(g<=dn)
   { 
-    var rowdiv=document.createElement("div")
-    rowdiv.setAttribute("style","padding:2%")
-    rowdiv.setAttribute("class","row")
-    document.getElementById("parent-holder1").appendChild(rowdiv)
-    coldiv1=document.createElement("div")
-    coldiv1.setAttribute("class","col-sm-4")
-    coldiv1.setAttribute("id","row"+i+"col"+1)
-    coldiv2=document.createElement("div")
-    coldiv2.setAttribute("class","col-sm-4")
-    coldiv2.setAttribute("id","row"+i+"col"+2)
-    coldiv3=document.createElement("div")
-    coldiv3.setAttribute("class","col-sm-4")
-    coldiv3.setAttribute("id","row"+i+"col"+3)
-    rowdiv.appendChild(coldiv1)
-    rowdiv.appendChild(coldiv2)
-    rowdiv.appendChild(coldiv3)
-    c=1
-    while(c<4&&p<t){
-    cardclass=document.createElement("div")
-    cardclass.setAttribute("class","card cardclass")
-    cardheader=document.createElement("div")
-    cardclass.appendChild(cardheader)
-    cardheader.innerHTML=vresult[p].Title+'('+vresult[p].Year+')'
-    cardheader.setAttribute("class","card-header")
-    document.getElementById("row"+i+"col"+c).appendChild(cardclass)
-    img=document.createElement("img")
-    img.setAttribute("class","card-img-top")
-    if(vresult[p].Poster!='N/A')
-    img.setAttribute("src",vresult[p].Poster)
+    //alert("here3")
+    var nrowdiv=document.createElement("div")
+    nrowdiv.setAttribute("style","padding:2%")
+    nrowdiv.setAttribute("class","row")
+    document.getElementById("parent-holder1").appendChild(nrowdiv)
+    var ncoldiv1=document.createElement("div")
+    ncoldiv1.setAttribute("class","col-sm-4")
+    ncoldiv1.setAttribute("id","nrow"+g+"col"+1)
+    var ncoldiv2=document.createElement("div")
+    ncoldiv2.setAttribute("class","col-sm-4")
+    ncoldiv2.setAttribute("id","nrow"+g+"col"+2)
+    var ncoldiv3=document.createElement("div")
+    ncoldiv3.setAttribute("class","col-sm-4")
+    ncoldiv3.setAttribute("id","nrow"+g+"col"+3)
+    nrowdiv.appendChild(ncoldiv1)
+    nrowdiv.appendChild(ncoldiv2)
+    nrowdiv.appendChild(ncoldiv3)
+    var dc=1
+    while(dc<4&&dp<dt){
+   var ncardclass=document.createElement("div")
+    ncardclass.setAttribute("class","card cardclass")
+    var ncardheader=document.createElement("div")
+    ncardclass.appendChild(ncardheader)
+    ncardheader.innerHTML=vresult[dp].Title+'('+vresult[dp].Year+')'
+    ncardheader.setAttribute("class","card-header")
+    document.getElementById("nrow"+g+"col"+dc).appendChild(ncardclass)
+    var nimg=document.createElement("img")
+    nimg.setAttribute("class","card-img-top")
+    if(vresult[dp].Poster!='N/A')
+    nimg.setAttribute("src",vresult[dp].Poster)
     else
-    img.setAttribute("src","https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg")
-    cardclass.appendChild(img)
-    button=document.createElement("button")
-    button.setAttribute("onclick","add('"+result1[p].imdbID+"')")
-    button.setAttribute("data-toggle","modal")
-    button.setAttribute("data-target","#myModal")
-    button.setAttribute("class","add-button btn btn-danger")
-    cardclass.appendChild(button)
-    button.innerHTML='<center><i style="margin:1px;" class="fa fa-plus"></i></center>'
-    button.setAttribute("style","float:right")
-    c++
-    p++
-    if(p==t)
-    {
-      if(page>1)
-      {
-        prevButton=document.createElement("button")
-        prevButton.setAttribute("class","prev-button btn")
-        document.getElementById("row"+i+"col"+c).appendChild(prevButton)
-        prevButton.innerHTML="<i class='fa fa-arrow-right'></i>&nbsp&nbspPrev page"
-        prevButton.setAttribute('onclick','prevPage()')
-      }
-      nextButton=document.createElement("button")
-      nextButton.setAttribute("class","next-button btn")
-      document.getElementById("row"+i+"col"+c).appendChild(nextButton)
-      nextButton.innerHTML="View more&nbsp&nbsp<i class='fa fa-arrow-right'></i>"
-      nextButton.setAttribute('onclick','nextPage()')
+    nimg.setAttribute("src","https://vishwaentertainers.com/wp-content/uploads/2020/04/No-Preview-Available.jpg")
+    ncardclass.appendChild(nimg)
+    var nbutton=document.createElement("button")
+    nbutton.setAttribute("onclick","add('"+result1[dp].imdbID+"')")
+    nbutton.setAttribute("data-toggle","modal")
+    nbutton.setAttribute("data-target","#myModal")
+    nbutton.setAttribute("class","add-button btn btn-danger")
+    ncardclass.appendChild(nbutton)
+    nbutton.innerHTML='<center><i style="margin:1px;" class="fa fa-plus"></i></center>'
+    nbutton.setAttribute("style","float:right")
+    dc++
+    dp++
     }
-    }
-    i++
-
+    g++
+   
   }
+  return
 }
 
 
 function getimdbData(id)
 {
-  console.log(id)
   return new Promise((s,r)=>{
     $.ajax(
       {
