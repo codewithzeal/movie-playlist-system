@@ -5,11 +5,11 @@ var log={
     
         var config=
         {
-            host: 'localhost',
+            host: '',
             port:"3306",
-            user: 'naman',
-            password: 'inaman123',
-            database: 'demoproject'
+            user: '',
+            password: '',
+            database: ''
         }
         const db=mysql.createConnection(config);
         return db;
