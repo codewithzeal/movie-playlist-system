@@ -92,10 +92,17 @@ function login()
                 alert("error 1 occured")
                 else
                 {
+                    //alert(res)
                     if(res=="ok")
                     window.location.href="http://localhost:3000/wall"
-                    if(res=="N")
+                    else if(res=="N")
                     alert("inavlid credentials")
+                    if(res&&res!="ok"&&res!="N")
+                    {
+                        res=JSON.parse(res)
+                        console.log(res,"http://localhost:3000/views/"+res.uid+'/'+res.pn+'/1')
+                        window.location.href="http://localhost:3000/views/"+res.uid+'/'+res.pn+'/1'
+                    }
                 }
             },
             error:(res)=>{

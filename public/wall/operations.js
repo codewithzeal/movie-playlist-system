@@ -157,7 +157,9 @@ function appendResult(result)
 
 async function add(id)
 {
-    $.ajax(
+  ihtml=document.getElementById("myModal").innerHTML
+  document.getElementById("modal-status").innerHTML="<div style='background-color:white;padding:10px;'>Loading....</div>"
+  $.ajax(
     {
       url:'https://www.omdbapi.com/?i='+id+'&apikey=16146057&page=1&plot=full',
       method:'POST',
@@ -186,7 +188,7 @@ function showData(result,id)
   document.getElementById("release").innerHTML=result.Released
   document.getElementById("running").innerHTML=result.Runtime
   document.getElementById("language").innerHTML=result.Language
-  document.getElementById("plot").innerHTML=result.Plot
+  document.getElementById("plot").innerHTML="<p style='height:auto;overflow:hidden' id=plot>"+"<b>Plot:&nbsp&nbsp</b>"+result.Plot+"</p>"
   document.getElementById("imdbID").innerHTML=id
 }
 
@@ -203,6 +205,8 @@ function getPlayList()
           home:"false"
         }),
         success:res=>{
+          document.getElementById("myModal").innerHTML=""
+          document.getElementById("myModal").innerHTML=ihtml
           console.log(res)
             if(res=="error"){
             alert("playlist server error occured")

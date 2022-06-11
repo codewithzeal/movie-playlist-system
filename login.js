@@ -27,11 +27,18 @@ app.post('/login',(req,res)=>{
             else
             {
                 //console.log(result[0])
-                if(result[0])
+                if(result[0]&&!req.session.rd)
                 {
                     req.session.uname=result[0].uname;
                     req.session.uuid=result[0].uid;
                     res.send("ok")
+                }
+                else if(result[0]&&req.session.rd)
+                {
+                    req.session.rd=undefined
+                    req.session.uname=result[0].uname;
+                    req.session.uuid=result[0].uid;
+                    res.send(JSON.stringify({uid:req.session.uuid,pn:req.session.pn}))
                 }
                 else
                     res.send("N")

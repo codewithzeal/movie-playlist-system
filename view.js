@@ -6,9 +6,21 @@ var sql=require('./getSql.js')
 var session=require('express-session')
 app.use(session({secret: 'Your_Secret_Key',resave:false,saveUninitialized:false}))
 
-app.get('/views/:uid/:playlist_name',async (req,res)=>{
+app.get('/views/:uid/:playlist_name/:type',async (req,res)=>{
     var uid=req.params["uid"]
     var playlist_name=req.params["playlist_name"]
+    type=req.params["type"]
+    if(type=="1")
+    {
+        if(!req.session.uname)
+        {
+            req.session.uuid=uid,
+            req.session.rd="true",
+            req.session.pn=playlist_name
+            res.redirect('/')
+            return
+        }
+    }
     await verify().then((data1)=>{
         console.log(data1[0].imdbId,data1.length)
         if(data1=="failed")
@@ -30,8 +42,12 @@ app.get('/views/:uid/:playlist_name',async (req,res)=>{
                 s("failed")
                 else
                 {
-                    query="select * from playlists where type='public' and  playlist_name=?"
+                    query="select * from playlists where type=? and  playlist_name=?"
                     val=[]
+                    if(type=='1')
+                    val.push("private")
+                    else
+                    val.push("public")
                     val.push(playlist_name)
                     sql.execute(query,val,(err,result)=>{
                         if(err)
